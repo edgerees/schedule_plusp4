@@ -1,12 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Employees</h1>
-    <p>Employees go HERE -></p>
-</body>
-</html>
+{% extends 'schedule_app/main.html' %}
+
+{% block content %}
+
+<br>
+
+<div class="row">
+    <div class="col-md">
+        <div class="card card-body">
+            <h5>Employee:</h5>
+            <hr>
+            <a class="btn btn-outline-info  btn-sm btn-block" href="">Update Employee</a>
+            <a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Employee</a>
+
+        </div>
+    </div>
+
+    <div class="col-md">
+        <div class="card card-body">
+            <h5>Employee Information</h5>
+            <hr>
+            <p>Name: </p>
+            <p>Email: </p>
+            <p>Position: </p>
+            <p>Hired On: </p>
+        </div>
+    </div>
+
+    <div class="col-md">
+        <div class="card card-body">
+            <h5>Total Tasks</h5>
+            <hr>
+            <h1 style="text-align: center;padding: 10px"></h1>
+        </div>
+    </div>
+</div>
+
+
+<br>
+<div class="row">
+    <div class="col">
+        <div class="card card-body">
+            <form method="get">
+
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md">
+        <div class="card card-body">
+            <table class="table table-sm">
+                <tr>
+                    <th>Title</th>
+                    <th>Priority</th>
+                    <th>Date Assigned</th>
+                    <th>Date Due</th>
+                    <!-- <th>Status</th> -->
+                    <!-- Add a click on for description -->
+                    <th>Update</th>
+                    <th>Remove</th>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
