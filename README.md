@@ -1,6 +1,6 @@
 # schedule_plus
-Features:
-Facial recognition to log into account
+# Features:
+- Facial recognition to log into account
 Ask employees how they are feeling before and after work (good, moderate, bad) & why
 Three accounts: Managers, employees, (Admin stretch)
 Ability add employees & managers
