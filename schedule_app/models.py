@@ -14,7 +14,7 @@ class Employee(models.Model):
     email = models.CharField(max_length=200, null=True)
     position = models.ForeignKey(
         Position, null=True, on_delete=models.SET_NULL)
-    company = models.CharField(max_length=200, null=True)
+    # company = models.CharField(max_length=200, null=True)
     date_hired = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -23,7 +23,7 @@ class Employee(models.Model):
 
 class Task(models.Model):
     # STATUS = (
-    #     ('Assigned', 'Assigned'),
+    #     ('Pending', 'Pending'),
     #     ('In Progress', 'In Progress'),
     #     ('Complete', 'Complete')
     # )

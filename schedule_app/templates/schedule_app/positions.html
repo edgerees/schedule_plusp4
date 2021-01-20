@@ -1,0 +1,32 @@
+{% extends 'schedule_app/main.html' %}
+
+{% block content %}
+
+<br>
+
+<div class="row">
+    <div class="col-md">
+        <div class="card card-body">
+            <h5>Positions</h5>
+        </div>
+        <div class="card card-body">
+            <table class="table">
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                </tr>
+
+                {% for i in positions %}
+                <tr>
+                    <td>{{i.title}}</td>
+                    <td>{{i.description}}</td>
+                </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}
