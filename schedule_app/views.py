@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.forms import inlineformset_factory
 from .models import *
 from .forms import TaskForm
+from .filters import TaskFilter
 
 # Create your views here.
 
@@ -36,8 +37,11 @@ def employee(request, pk):
 
     total_tasks = tasks.count()
 
+    myFilter = TaskFilter(request.GET, queryset=tasks)
+    tasks = myFilter.qs
+
     context = {'employee': employee,
-               'tasks': tasks, 'total_tasks': total_tasks}
+               'tasks': tasks, 'total_tasks': total_tasks, 'myFilter': myFilter}
     return render(request, 'schedule_app/employee.html', context)
 
 

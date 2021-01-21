@@ -33,7 +33,7 @@ class Task(models.Model):
         ('Very Important', 'Very Important')
     )
     title = models.CharField(max_length=200, null=True)
-    description = models.CharField(max_length=200, null=True, blank=True)
+    note = models.CharField(max_length=200, null=True, blank=True)
     date_assigned = models.DateTimeField(auto_now_add=True)
     date_due = models.CharField(max_length=200, null=True, blank=True)
     # date_due = models.DateTimeField(null=True)
