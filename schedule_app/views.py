@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.forms import inlineformset_factory
 from .models import *
 from .forms import TaskForm
 
@@ -40,17 +41,18 @@ def employee(request, pk):
     return render(request, 'schedule_app/employee.html', context)
 
 
-def createTask(request):
-
-    form = TaskForm()
+def createTask(request, pk):
+    TaskFormSet = inlineformset_factory(
+        Employee, Task, fields=('title', 'description', 'status', 'priority', 'date_due'), extra=5)
+    employee = Employee.objects.get(id=pk)
+    formset = TaskFormSet(queryset=Task.objects.none(), instance=employee)
     if request.method == 'POST':
-        # print('Priniting POST', request.POST)
-        form = TaskForm(request.POST)
-        if form.is_valid():
-            form.save()
+        formset = TaskFormSet(request.POST, instance=employee)
+        if formset.is_valid():
+            formset.save()
             return redirect('/')
 
-    context = {'form': form}
+    context = {'formset': formset}
 
     return render(request, 'schedule_app/task_form.html', context)
 
@@ -60,6 +62,24 @@ def updateTask(request, pk):
 
     form = TaskForm(instance=task)
 
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
     context = {'form': form}
 
     return render(request, 'schedule_app/task_form.html', context)
+
+
+def deleteTask(request, pk):
+    task = Task.objects.get(id=pk)
+
+    if request.method == 'POST':
+        task.delete()
+        return redirect('/')
+
+    context = {'title': task}
+
+    return render(request, 'schedule_app/delete.html', context)
