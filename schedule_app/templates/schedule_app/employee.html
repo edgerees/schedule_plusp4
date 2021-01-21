@@ -19,10 +19,10 @@
         <div class="card card-body">
             <h5>Employee Information</h5>
             <hr>
-            <p>Name: </p>
-            <p>Email: </p>
-            <p>Position: </p>
-            <p>Hired On: </p>
+            <p>Name: {{employee.name}}</p>
+            <p>Email: {{employee.email}}</p>
+            <p>Position: {{employee.position.title}}</p>
+            <p>Hired On: {{employee.date_hired}}</p>
         </div>
     </div>
 
@@ -30,7 +30,7 @@
         <div class="card card-body">
             <h5>Total Tasks</h5>
             <hr>
-            <h1 style="text-align: center;padding: 10px"></h1>
+            <h1 style="text-align: center;padding: 10px">{{total_tasks}}</h1>
         </div>
     </div>
 </div>
@@ -64,6 +64,19 @@
                     <th>Update</th>
                     <th>Remove</th>
                 </tr>
+
+                {% for task in tasks %}
+
+                <tr>
+                    <td>{{task.title}}</td>
+                    <td>{{task.priority}}</td>
+                    <td>{{task.date_assigned}}</td>
+                    <td>{{task.date_due}}</td>
+                    <td>{{task.status}}</td>
+                    <td><a class="btn btn-sm btn-info" href="">Update</a></td>
+                    <td><a class="btn btn-sm btn-danger" href="">Remove</a></td>
+                </tr>
+                {% endfor %}
 
             </table>
         </div>

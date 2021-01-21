@@ -34,7 +34,7 @@
         <h5>LAST 5 TASKS</h5>
         <hr>
         <div class="card card-body">
-            <a class="btn btn-primary  btn-sm btn-block" href="">Create a Task</a>
+            <a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_task' %}">Create a Task</a>
             <table class="table table-sm">
                 <tr>
                     <th>Title</th>
@@ -54,8 +54,8 @@
                     <td>{{task.date_assigned}}</td>
                     <td>{{task.date_due}}</td>
                     <td>{{task.priority}}</td>
-                    <td><a href="">Update</a></td>
-                    <td><a href="">Delete</a></td>
+                    <td><a class="btn btn-sm btn-info" href="{% url 'update_task' task.id %}">Update</a></td>
+                    <td><a class="btn btn-sm btn-danger" href="">Delete</a></td>
 
                 </tr>
                 {% endfor %}

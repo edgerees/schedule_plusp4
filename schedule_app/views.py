@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
+from .forms import TaskForm
 
 # Create your views here.
 
@@ -30,7 +31,35 @@ def positions(request):
 def employee(request, pk):
     employee = Employee.objects.get(id=pk)
 
-    # tasks = employee.task_set.all()
+    tasks = employee.task_set.all()
 
-    context = {'employee': employee}
+    total_tasks = tasks.count()
+
+    context = {'employee': employee,
+               'tasks': tasks, 'total_tasks': total_tasks}
     return render(request, 'schedule_app/employee.html', context)
+
+
+def createTask(request):
+
+    form = TaskForm()
+    if request.method == 'POST':
+        # print('Priniting POST', request.POST)
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    context = {'form': form}
+
+    return render(request, 'schedule_app/task_form.html', context)
+
+
+def updateTask(request, pk):
+    task = Task.objects.get(id=pk)
+
+    form = TaskForm(instance=task)
+
+    context = {'form': form}
+
+    return render(request, 'schedule_app/task_form.html', context)
