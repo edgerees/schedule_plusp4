@@ -38,11 +38,10 @@
             <table class="table table-sm">
                 <tr>
                     <th>Title</th>
-                    <th>Priority</th>
+                    <th>Status</th>
                     <th>Date Assigned</th>
                     <th>Date Due</th>
-                    <!-- <th>Status</th> -->
-
+                    <th>Priority</th>
                     <!-- Add a click on for details -->
                     <th>Update</th>
                     <th>Remove</th>
@@ -51,10 +50,10 @@
                 {% for task in tasks %}
                 <tr>
                     <td>{{task.title}}</td>
-                    <td>{{task.priority}}</td>
+                    <td>{{task.status}}</td>
                     <td>{{task.date_assigned}}</td>
                     <td>{{task.date_due}}</td>
-                    <!-- <td>{{task.status}}</td> -->
+                    <td>{{task.priority}}</td>
                     <td><a href="">Update</a></td>
                     <td><a href="">Delete</a></td>
 

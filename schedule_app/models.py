@@ -22,11 +22,11 @@ class Employee(models.Model):
 
 
 class Task(models.Model):
-    # STATUS = (
-    #     ('Pending', 'Pending'),
-    #     ('In Progress', 'In Progress'),
-    #     ('Complete', 'Complete')
-    # )
+    STATUS = (
+        ('Pending', 'Pending'),
+        ('In Progress', 'In Progress'),
+        ('Complete', 'Complete')
+    )
     PRIORITY = (
         ('Not Important', 'Not Important'),
         ('Important', 'Important'),
@@ -36,8 +36,8 @@ class Task(models.Model):
     description = models.CharField(max_length=200, null=True, blank=True)
     date_assigned = models.DateTimeField(auto_now_add=True)
     date_due = models.DateTimeField(null=True)
-    status = models.CharField(max_length=200, null=True, choices=PRIORITY)
-    # status = models.CharField(max_length=200, null=True, choices=STATUS)
+    # priority = models.CharField(max_length=200, null=True, choices=PRIORITY)
+    status = models.CharField(max_length=200, null=True, choices=STATUS)
     employee = models.ForeignKey(
         Employee, null=True, on_delete=models.SET_NULL)
 
