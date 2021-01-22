@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.forms import inlineformset_factory
 from .models import *
-from .forms import TaskForm
+from .forms import TaskForm, PositionForm
 from .filters import TaskFilter
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
@@ -86,6 +86,10 @@ def about(request):
     return render(request, 'schedule_app/about.html')
 
 
+def landing(request):
+    return render(request, 'schedule_app/landing.html')
+
+
 def employee(request, pk):
     employee = Employee.objects.get(id=pk)
 
@@ -143,3 +147,17 @@ def deleteTask(request, pk):
     context = {'title': task}
 
     return render(request, 'schedule_app/delete.html', context)
+
+
+def createPosition(request):
+
+    form = PositionForm()
+    if request.method == 'POST':
+        form = PositionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('positions/')
+
+    context = {'form': form}
+
+    return render(request, 'schedule_app/position_form.html', context)
