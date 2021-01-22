@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Task
+from .models import Task, Position
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
@@ -8,6 +8,12 @@ from django import forms
 class TaskForm(ModelForm):
     class Meta:
         model = Task
+        fields = '__all__'
+
+
+class PositionForm(ModelForm):
+    class Meta:
+        model = Position
         fields = '__all__'
 
 
