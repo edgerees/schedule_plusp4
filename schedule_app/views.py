@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.forms import inlineformset_factory
 from .models import *
-from .forms import TaskForm
+from .forms import TaskForm, PositionForm
 from .filters import TaskFilter
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
@@ -65,14 +65,16 @@ def home(request):
 
     total_tasks = tasks.count()
 
-    complete = tasks.filter(status='Complete').count()
+    in_progress = tasks.filter(status='In Progress').count()
     pending = tasks.filter(status='Pending').count()
+
+    tasks.filter(status='Complete').delete()
 
     myFilter = TaskFilter(request.GET, queryset=tasks)
     tasks = myFilter.qs
 
     context = {'tasks': tasks, 'employees': employees,
-               'total_employees': total_employees, 'total_tasks': total_tasks, 'complete': complete, 'pending': pending, 'myFilter': myFilter}
+               'total_employees': total_employees, 'total_tasks': total_tasks, 'in_progress': in_progress, 'pending': pending, 'myFilter': myFilter}
 
     return render(request, 'schedule_app/dashboard.html', context)
 
@@ -84,6 +86,10 @@ def positions(request):
 
 def about(request):
     return render(request, 'schedule_app/about.html')
+
+
+def landing(request):
+    return render(request, 'schedule_app/landing.html')
 
 
 def employee(request, pk):
@@ -103,7 +109,7 @@ def employee(request, pk):
 
 def createTask(request, pk):
     TaskFormSet = inlineformset_factory(
-        Employee, Task, fields=('title', 'description', 'status', 'priority', 'date_due'), extra=5)
+        Employee, Task, fields=('title', 'note', 'status', 'priority', 'date_due'), extra=5)
     employee = Employee.objects.get(id=pk)
     formset = TaskFormSet(queryset=Task.objects.none(), instance=employee)
     if request.method == 'POST':
@@ -143,3 +149,37 @@ def deleteTask(request, pk):
     context = {'title': task}
 
     return render(request, 'schedule_app/delete.html', context)
+
+
+def taskDetails(request, pk):
+    task = Task.objects.get(id=pk)
+
+    context = {'task': task}
+
+    return render(request, 'schedule_app/task_details.html', context)
+
+
+def createPosition(request):
+
+    form = PositionForm()
+    if request.method == 'POST':
+        form = PositionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/positions')
+
+    context = {'form': form}
+
+    return render(request, 'schedule_app/position_form.html', context)
+
+
+def deletePosition(request, pk):
+    position = Position.objects.get(id=pk)
+
+    if request.method == 'POST':
+        position.delete()
+        return redirect('/positions')
+
+    context = {'title': position}
+
+    return render(request, 'schedule_app/delete_position.html', context)
