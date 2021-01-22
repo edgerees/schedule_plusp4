@@ -107,7 +107,7 @@ def employee(request, pk):
 
 def createTask(request, pk):
     TaskFormSet = inlineformset_factory(
-        Employee, Task, fields=('title', 'description', 'status', 'priority', 'date_due'), extra=5)
+        Employee, Task, fields=('title', 'note', 'status', 'priority', 'date_due'), extra=5)
     employee = Employee.objects.get(id=pk)
     formset = TaskFormSet(queryset=Task.objects.none(), instance=employee)
     if request.method == 'POST':
@@ -156,8 +156,20 @@ def createPosition(request):
         form = PositionForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('positions/')
+            return redirect('/positions')
 
     context = {'form': form}
 
     return render(request, 'schedule_app/position_form.html', context)
+
+
+def deletePosition(request, pk):
+    position = Position.objects.get(id=pk)
+
+    if request.method == 'POST':
+        position.delete()
+        return redirect('/positions')
+
+    context = {'title': position}
+
+    return render(request, 'schedule_app/delete_position.html', context)
