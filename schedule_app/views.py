@@ -100,15 +100,7 @@ def positions(request):
 def about(request):
     return render(request, 'schedule_app/about.html')
 
-<<<<<<< HEAD
 @login_required(login_url='login')
-=======
-
-def landing(request):
-    return render(request, 'schedule_app/landing.html')
-
-
->>>>>>> 6cbfb55e419d41abec292dc59fd03996553ea9db
 def employee(request, pk):
     employee = Employee.objects.get(id=pk)
 
