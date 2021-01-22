@@ -5,8 +5,6 @@ from .models import *
 from .forms import TaskForm
 from .filters import TaskFilter
 
-# Create your views here.
-
 
 def home(request):
     tasks = Task.objects.all()
@@ -19,8 +17,11 @@ def home(request):
     complete = tasks.filter(status='Complete').count()
     pending = tasks.filter(status='Pending').count()
 
+    myFilter = TaskFilter(request.GET, queryset=tasks)
+    tasks = myFilter.qs
+
     context = {'tasks': tasks, 'employees': employees,
-               'total_employees': total_employees, 'total_tasks': total_tasks, 'complete': complete, 'pending': pending}
+               'total_employees': total_employees, 'total_tasks': total_tasks, 'complete': complete, 'pending': pending, 'myFilter': myFilter}
 
     return render(request, 'schedule_app/dashboard.html', context)
 
@@ -28,6 +29,10 @@ def home(request):
 def positions(request):
     positions = Position.objects.all()
     return render(request, 'schedule_app/positions.html', {'positions': positions})
+
+
+def about(request):
+    return render(request, 'schedule_app/about.html')
 
 
 def employee(request, pk):
@@ -64,7 +69,7 @@ def createTask(request, pk):
 def updateTask(request, pk):
     task = Task.objects.get(id=pk)
 
-    form = TaskForm(instance=task)
+    formset = TaskForm(instance=task)
 
     if request.method == 'POST':
         form = TaskForm(request.POST, instance=task)
@@ -72,7 +77,7 @@ def updateTask(request, pk):
             form.save()
             return redirect('/')
 
-    context = {'form': form}
+    context = {'formset': formset}
 
     return render(request, 'schedule_app/task_form.html', context)
 
