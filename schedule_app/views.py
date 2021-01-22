@@ -9,10 +9,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from .models import *
-
 from .forms import CreateUserForm
 
+def landing(request):
+    return render(request, 'schedule_app/landing.html')
 
 def registerPage(request):
     if request.user.is_authenticated:
@@ -57,6 +57,7 @@ def logoutUser(request):
     return redirect('login')
 
 
+@login_required(login_url='landing')
 def home(request):
     tasks = Task.objects.all()
     employees = Employee.objects.all()
@@ -76,7 +77,11 @@ def home(request):
 
     return render(request, 'schedule_app/dashboard.html', context)
 
+def userPage(request):
+    context = {}
+    return render(request, 'schedule_app/user.html', context)
 
+@login_required(login_url='login')
 def positions(request):
     positions = Position.objects.all()
     return render(request, 'schedule_app/positions.html', {'positions': positions})
@@ -85,7 +90,7 @@ def positions(request):
 def about(request):
     return render(request, 'schedule_app/about.html')
 
-
+@login_required(login_url='login')
 def employee(request, pk):
     employee = Employee.objects.get(id=pk)
 
@@ -100,10 +105,10 @@ def employee(request, pk):
                'tasks': tasks, 'total_tasks': total_tasks, 'myFilter': myFilter}
     return render(request, 'schedule_app/employee.html', context)
 
-
+@login_required(login_url='login')
 def createTask(request, pk):
     TaskFormSet = inlineformset_factory(
-        Employee, Task, fields=('title', 'description', 'status', 'priority', 'date_due'), extra=5)
+        Employee, Task, fields=('title', 'note', 'status', 'priority', 'date_due'), extra=5)
     employee = Employee.objects.get(id=pk)
     formset = TaskFormSet(queryset=Task.objects.none(), instance=employee)
     if request.method == 'POST':
@@ -116,7 +121,7 @@ def createTask(request, pk):
 
     return render(request, 'schedule_app/task_form.html', context)
 
-
+@login_required(login_url='login')
 def updateTask(request, pk):
     task = Task.objects.get(id=pk)
 
@@ -132,7 +137,7 @@ def updateTask(request, pk):
 
     return render(request, 'schedule_app/task_form.html', context)
 
-
+@login_required(login_url='login')
 def deleteTask(request, pk):
     task = Task.objects.get(id=pk)
 
