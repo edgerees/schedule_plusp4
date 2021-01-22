@@ -36,7 +36,6 @@ class Task(models.Model):
     note = models.CharField(max_length=200, null=True, blank=True)
     date_assigned = models.DateTimeField(auto_now_add=True)
     date_due = models.CharField(max_length=200, null=True, blank=True)
-    # date_due = models.DateTimeField(null=True)
     priority = models.CharField(max_length=200, null=True, choices=PRIORITY)
     status = models.CharField(max_length=200, null=True, choices=STATUS)
     employee = models.ForeignKey(
