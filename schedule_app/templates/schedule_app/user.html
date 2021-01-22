@@ -1,6 +1,9 @@
 {% extends 'schedule_app/main.html' %}
+{% load static %}
 {% block content %}
 {% include 'schedule_app/status.html' %}
+<h3>Employee Profile</h3>
+
 <br>
 <div class="col-md-7">
     <h5>TASKS</h5>
@@ -36,4 +39,5 @@
     </div>
 </div>
 </div>
-{% endblock %}
+
+{% endblock content %}
