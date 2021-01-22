@@ -20,7 +20,7 @@
 
                 {% for employee in employees %}
                 <tr>
-
+                    <td><a class="btn btn-sm btn-info" href="{% url 'employee' employee.id %}">View</a></td>
                     <td>{{employee.name}}</td>
                     <td>{{employee.position}}</td>
                 </tr>
@@ -34,7 +34,10 @@
         <h5>LAST 5 TASKS</h5>
         <hr>
         <div class="card card-body">
-            <a class="btn btn-primary  btn-sm btn-block" href="">Create a Task</a>
+            <form method="get">
+                {{myFilter.form}}
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
             <table class="table table-sm">
                 <tr>
                     <th>Title</th>
@@ -54,8 +57,8 @@
                     <td>{{task.date_assigned}}</td>
                     <td>{{task.date_due}}</td>
                     <td>{{task.priority}}</td>
-                    <td><a href="">Update</a></td>
-                    <td><a href="">Delete</a></td>
+                    <td><a class="btn btn-sm btn-info" href="{% url 'update_task' task.id %}">Update</a></td>
+                    <td><a class="btn btn-sm btn-danger" href="{% url 'delete_task' task.id %}">Delete</a></td>
 
                 </tr>
                 {% endfor %}
