@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 from .models import *
+
 from .forms import CreateUserForm
 
 def registerPage(request):
@@ -30,7 +31,7 @@ def registerPage(request):
 			
 
 		context = {'form':form}
-		return render(request, 'accounts/register.html', context)
+		return render(request, 'schedule_app/register.html', context)
 
 def loginPage(request):
 	if request.user.is_authenticated:
@@ -49,7 +50,7 @@ def loginPage(request):
 				messages.info(request, 'Username OR password is incorrect')
 
 		context = {}
-		return render(request, 'accounts/login.html', context)
+		return render(request, 'schedule_app/login.html', context)
 
 def logoutUser(request):
 	logout(request)
