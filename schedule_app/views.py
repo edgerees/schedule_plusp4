@@ -68,6 +68,8 @@ def home(request):
     complete = tasks.filter(status='Complete').count()
     pending = tasks.filter(status='Pending').count()
 
+    tasks.filter(status='Complete').delete()
+
     myFilter = TaskFilter(request.GET, queryset=tasks)
     tasks = myFilter.qs
 
