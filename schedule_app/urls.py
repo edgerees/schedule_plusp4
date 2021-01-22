@@ -10,6 +10,7 @@ urlpatterns = [
     path('create_task/<str:pk>/', views.createTask, name='create_task'),
     path('update_task/<str:pk>/', views.updateTask, name='update_task'),
     path('delete_task/<str:pk>/', views.deleteTask, name='delete_task'),
+    path('task_details/<str:pk>/', views.taskDetails, name='task_details'),
     path('create_position/', views.createPosition, name='create_position'),
     path('delete_position/<str:pk>/',
          views.deletePosition, name='delete_position'),

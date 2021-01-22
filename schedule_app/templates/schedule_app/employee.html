@@ -6,6 +6,7 @@
 
 <div class="row">
     <div class="col-md">
+        <!-- <a class="btn btn-sm btn-outline-dark" href="{% url 'home' %}">Go Back</a> -->
         <div class="card card-body">
             <h5>Employee:</h5>
             <hr>
@@ -44,7 +45,7 @@
         <div class="card card-body">
             <form method="get">
                 {{myFilter.form}}
-                <button class="btn btn-primary" type="submit">Search</button>
+                <button class="btn-sm btn-primary" type="submit">Search</button>
             </form>
         </div>
     </div>
@@ -62,7 +63,7 @@
                     <th>Date Assigned</th>
                     <th>Date Due</th>
                     <th>Status</th>
-                    <!-- Add a click on for description -->
+                    <th>Details</th>
                     <th>Update</th>
                     <th>Remove</th>
                 </tr>
@@ -75,8 +76,10 @@
                     <td>{{task.date_assigned}}</td>
                     <td>{{task.date_due}}</td>
                     <td>{{task.status}}</td>
-                    <td><a class="btn btn-sm btn-info" href="{% url 'update_task' task.id %}">Update</a></td>
-                    <td><a class="btn btn-sm btn-danger" href="{% url 'delete_task' task.id %}">Delete</a></td>
+                    <td><a class="btn btn-sm btn-outline-dark" href="{% url 'task_details' task.id %}">Details</a>
+                    </td>
+                    <td><a class="btn btn-sm btn-outline-info" href="{% url 'update_task' task.id %}">Update</a></td>
+                    <td><a class="btn btn-sm btn-outline-danger" href="{% url 'delete_task' task.id %}">Delete</a></td>
                 </tr>
                 {% endfor %}
 

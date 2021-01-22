@@ -65,7 +65,7 @@ def home(request):
 
     total_tasks = tasks.count()
 
-    complete = tasks.filter(status='Complete').count()
+    in_progress = tasks.filter(status='In Progress').count()
     pending = tasks.filter(status='Pending').count()
 
     tasks.filter(status='Complete').delete()
@@ -74,7 +74,7 @@ def home(request):
     tasks = myFilter.qs
 
     context = {'tasks': tasks, 'employees': employees,
-               'total_employees': total_employees, 'total_tasks': total_tasks, 'complete': complete, 'pending': pending, 'myFilter': myFilter}
+               'total_employees': total_employees, 'total_tasks': total_tasks, 'in_progress': in_progress, 'pending': pending, 'myFilter': myFilter}
 
     return render(request, 'schedule_app/dashboard.html', context)
 
@@ -149,6 +149,14 @@ def deleteTask(request, pk):
     context = {'title': task}
 
     return render(request, 'schedule_app/delete.html', context)
+
+
+def taskDetails(request, pk):
+    task = Task.objects.get(id=pk)
+
+    context = {'task': task}
+
+    return render(request, 'schedule_app/task_details.html', context)
 
 
 def createPosition(request):
