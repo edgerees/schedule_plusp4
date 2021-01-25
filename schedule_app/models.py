@@ -43,3 +43,10 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+
+
+# class Company(models.Model):
+#     name = models.CharField(max_length=200, null=True)
+#     key = models.CharField(max_length=200, null=True)
+#     employee = models.ForeignKey(
+#         Employee, null=True, on_delete=models.SET_NULL)
