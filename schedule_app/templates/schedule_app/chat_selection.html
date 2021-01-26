@@ -1,0 +1,24 @@
+{% extends 'schedule_app/main.html' %}
+{% block content %}
+
+<form onSubmit="goToChatroom()" class="form-group">
+    <div class="form-group">
+        <label for="chatSelection" class="h4 pt-5">Select Chatroom Here</label>
+        <input type="text" class="form-control" id="url" name="url" />
+        <br>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Go To Chatroom">
+    </div>
+</form>
+
+<script>
+    var windowLocation = window.location.href
+    var chat_url = document.querySelector('#url');
+
+    function goToChatroom(value) {
+        value = window.location + chat_url.value
+    }
+</script>
+
+{% endblock %}

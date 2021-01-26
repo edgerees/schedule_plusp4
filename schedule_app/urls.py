@@ -18,5 +18,6 @@ urlpatterns = [
     path('register/', views.registerPage, name="register"),
     path('login/', views.loginPage, name="login"),
     path('logout/', views.logoutUser, name="logout"),
+    path('chat/', views.chat, name="chat"),
     path('chat/<str:room_name>/', views.room, name="room"),
 ]

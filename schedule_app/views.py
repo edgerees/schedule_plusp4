@@ -207,3 +207,7 @@ def room(request, room_name):
     return render(request, 'schedule_app/chatroom.html', {
         'room_name': room_name
     })
+
+
+def chat(request):
+    return render(request, 'schedule_app/chat_selection.html')
