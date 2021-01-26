@@ -94,25 +94,9 @@ def home(request):
 
     return render(request, 'schedule_app/dashboard.html', context)
 
-    # total_tasks = tasks.count()
-    # in_progress = tasks.filter(status='In Progress').count()
-    # pending = tasks.filter(status='Pending').count()
-
 
 @login_required(login_url='login')
 def userPage(request):
-    # employee = Employee.objects.get(id=pk)
-
-    # tasks = employee.task_set.all()
-
-    # total_tasks = tasks.count()
-
-    # # myFilter = TaskFilter(request.GET, queryset=tasks)
-    # # tasks = myFilter.qs
-
-    # context = {'employee': employee,
-    #            'tasks': tasks, 'total_tasks': total_tasks}
-
     return render(request, 'schedule_app/user.html')
 
 
