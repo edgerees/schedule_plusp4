@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Position(models.Model):
@@ -10,6 +11,7 @@ class Position(models.Model):
 
 
 class Employee(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=True)
     email = models.CharField(max_length=200, null=True)
     position = models.ForeignKey(
@@ -46,4 +48,4 @@ class Task(models.Model):
 
 
 class Chat(models.Model):
-    chat_id = models.CharField(max_length=200, null=True)
+    chatroom = models.CharField(max_length=200, null=True)

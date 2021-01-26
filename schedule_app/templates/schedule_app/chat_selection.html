@@ -4,10 +4,9 @@
 
 
 <div class="row">
-    <div class="col-md-6">
-        <div class="card card-body">
-
-            <form action="" method="POST">
+    <div class="col-md-12">
+        <div class="card card-body" style="text-align: center">
+            <form method="POST">
                 {% csrf_token %}
                 {{form}}
                 <input type="submit" name="Submit">

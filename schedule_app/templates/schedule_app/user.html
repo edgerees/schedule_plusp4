@@ -8,13 +8,9 @@
 
 <div class="row">
     <div class="col-md-7">
-        <h5>TASKS</h5>
+        <h5>TASKS ASSIGNED TO ME</h5>
         <hr>
         <div class="card card-body">
-            <form method="get">
-                {{myFilter.form}}
-                <button class="btn btn-sm btn-primary" type="submit">Search</button>
-            </form>
             <table class="table table-sm">
                 <tr>
                     <th>Title</th>
@@ -32,10 +28,7 @@
                     <td>{{task.status}}</td>
                     <td>{{task.date_due}}</td>
                     <td>{{task.priority}}</td>
-                    <td><a class="btn btn-sm btn-outline-dark" href="{% url 'task_details' task.id %}">Details</a>
-                    </td>
-                    <td><a class="btn btn-sm btn-outline-info" href="{% url 'update_task' task.id %}">Update</a></td>
-                    <td><a class="btn btn-sm btn-outline-danger" href="{% url 'delete_task' task.id %}">Delete</a></td>
+                    <td><a class="btn btn-sm btn-outline-dark" href="{% url 'task_details' task.id %}">Details</a></td>
                 </tr>
                 {% endfor %}
             </table>

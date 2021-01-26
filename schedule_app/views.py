@@ -13,7 +13,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 
-from .forms import CreateUserForm
+
+# Views here
+from .forms import TaskForm, PositionForm, CreateUserForm
 from .decorators import unauthenticated_user, allowed_users, admin_only
 
 
@@ -24,21 +26,21 @@ def landing(request):
 
 @unauthenticated_user
 def registerPage(request):
-
     form = CreateUserForm()
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
-
-            group = Group.objects.get(name='employees')
+            group = Group.objects.get(name='employee')
             user.groups.add(group)
-
+            # Added username after video because of error returning employee name if not added
+            Employee.objects.create(
+                user=user,
+                name=user.username,
+            )
             messages.success(request, 'Account was created for ' + username)
-
             return redirect('login')
-
     context = {'form': form}
     return render(request, 'schedule_app/register.html', context)
 
@@ -76,7 +78,6 @@ def home(request):
     total_employees = employees.count()
 
     total_tasks = tasks.count()
-
     in_progress = tasks.filter(status='In Progress').count()
     pending = tasks.filter(status='Pending').count()
 
@@ -86,14 +87,33 @@ def home(request):
     tasks = myFilter.qs
 
     context = {'tasks': tasks, 'employees': employees,
-               'total_employees': total_employees, 'total_tasks': total_tasks, 'in_progress': in_progress, 'pending': pending, 'myFilter': myFilter}
+               'total_employees': total_employees,
+               'total_tasks': total_tasks,
+               'in_progress': in_progress,
+               'pending': pending, 'myFilter': myFilter}
 
     return render(request, 'schedule_app/dashboard.html', context)
 
+    # total_tasks = tasks.count()
+    # in_progress = tasks.filter(status='In Progress').count()
+    # pending = tasks.filter(status='Pending').count()
 
+
+@login_required(login_url='login')
 def userPage(request):
-    context = {}
-    return render(request, 'schedule_app/user.html', context)
+    # employee = Employee.objects.get(id=pk)
+
+    # tasks = employee.task_set.all()
+
+    # total_tasks = tasks.count()
+
+    # # myFilter = TaskFilter(request.GET, queryset=tasks)
+    # # tasks = myFilter.qs
+
+    # context = {'employee': employee,
+    #            'tasks': tasks, 'total_tasks': total_tasks}
+
+    return render(request, 'schedule_app/user.html')
 
 
 @login_required(login_url='login')
@@ -216,8 +236,7 @@ def chat(request):
         form = ChatForm(request.POST)
         if form.is_valid():
             form.save()
-            chat_id = form.cleaned_data.get("chat_id")
-            print('HERE', chat_id)
+            chat_id = form.cleaned_data.get("chatroom")
             return redirect('/chat/' + chat_id)
 
     context = {'form': form}
