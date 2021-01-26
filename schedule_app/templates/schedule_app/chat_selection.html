@@ -1,24 +1,21 @@
 {% extends 'schedule_app/main.html' %}
+{% load static %}
 {% block content %}
 
-<form onSubmit="goToChatroom()" class="form-group">
-    <div class="form-group">
-        <label for="chatSelection" class="h4 pt-5">Select Chatroom Here</label>
-        <input type="text" class="form-control" id="url" name="url" />
-        <br>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Go To Chatroom">
-    </div>
-</form>
 
-<script>
-    var windowLocation = window.location.href
-    var chat_url = document.querySelector('#url');
+<div class="row">
+    <div class="col-md-6">
+        <div class="card card-body">
 
-    function goToChatroom(value) {
-        value = window.location + chat_url.value
-    }
-</script>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{form}}
+                <input type="submit" name="Submit">
+            </form>
+
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}

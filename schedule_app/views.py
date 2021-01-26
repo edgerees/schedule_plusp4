@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.forms import inlineformset_factory
 from .models import *
-from .forms import TaskForm, PositionForm
+from .forms import ChatForm, TaskForm, PositionForm
 from .filters import TaskFilter
 from django.contrib.auth.forms import UserCreationForm
 
@@ -210,4 +210,16 @@ def room(request, room_name):
 
 
 def chat(request):
-    return render(request, 'schedule_app/chat_selection.html')
+    form = ChatForm()
+
+    if request.method == 'POST':
+        form = ChatForm(request.POST)
+        if form.is_valid():
+            form.save()
+            chat_id = form.cleaned_data.get("chat_id")
+            print('HERE', chat_id)
+            return redirect('/chat/' + chat_id)
+
+    context = {'form': form}
+
+    return render(request, 'schedule_app/chat_selection.html', context)
