@@ -19,9 +19,9 @@
 
                 {% for employee in employees %}
                 <tr>
-                    <td><a class="btn btn-sm btn-outline-info" href="{% url 'employee' employee.id %}">View</a></td>
                     <td>{{employee.name}}</td>
                     <td>{{employee.position}}</td>
+                    <td><a class="btn btn-sm btn-outline-info" href="{% url 'employee' employee.id %}">View</a></td>
                 </tr>
                 {% endfor %}
 

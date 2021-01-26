@@ -45,8 +45,5 @@ class Task(models.Model):
         return self.title
 
 
-# class Company(models.Model):
-#     name = models.CharField(max_length=200, null=True)
-#     key = models.CharField(max_length=200, null=True)
-#     employee = models.ForeignKey(
-#         Employee, null=True, on_delete=models.SET_NULL)
+class Chat(models.Model):
+    chat_id = models.CharField(max_length=200, null=True)
