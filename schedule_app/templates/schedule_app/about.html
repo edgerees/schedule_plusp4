@@ -1,9 +1,38 @@
 {% extends 'schedule_app/main.html' %}
+{% load static %}
 
 {% block content %}
 
-<div>
-    This is the about page
+<div class="col-md-7" id="about">
+    <div class="card card-body">
+        <h1 id="abttitle">About The App</h1>
+        <h5>
+            Manage your resturant in a moderm and efficent manner.
+        </h5>
+        <div class="table">
+            Our app allows you to assign tasks to your employees right away without any pysical contact. Employeers can
+            see
+            all
+            tasks that have been assiged at their company, search for tasks, and chat directly with other managers and
+            employees.
+            Employees
+            can
+            see all tasks that have been assigned to them, set the status of the task they are working on, and chat
+            with
+            managers and other employees.
+        </div>
+        <div>
+            <h1>The Developers</h1>
+            <div>
+                <h3>Edrees Husseini</h3>
+                <a href="https://github.com/edgerees" target="_blank">Github Img Here</a>
+            </div>
+            <div>
+                <h3>Jaxon Narramore</h3>
+                <a href="https://github.com/JaxonNarramore" target="_blank">Github Img Here</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock content %}

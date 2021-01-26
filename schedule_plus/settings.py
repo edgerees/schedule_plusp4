@@ -10,10 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
+
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -38,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'schedule_app',
-    'django_filters'
+    'django_filters',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +73,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'schedule_plus.wsgi.application'
 
+ASGI_APPLICATION = 'schedule_plus.routing.application'
+
+# ASGI_APPLICATION = 'schedule_plus.asgi.application'
+
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -78,7 +84,7 @@ WSGI_APPLICATION = 'schedule_plus.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -121,6 +127,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", "6379")],
+        },
+    },
+}
 
-LOGIN_URL = 'login' 
-LOGOUT_URL = 'logout'
+MEDIA_URL = '/images/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]

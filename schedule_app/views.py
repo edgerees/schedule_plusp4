@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.forms import inlineformset_factory
 from .models import *
-from .forms import TaskForm, PositionForm
+from .forms import ChatForm, TaskForm, PositionForm
 from .filters import TaskFilter
 from django.contrib.auth.forms import UserCreationForm
 
@@ -13,55 +13,60 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 
-from .forms import CreateUserForm
+
+# Views here
+from .forms import TaskForm, PositionForm, CreateUserForm
 from .decorators import unauthenticated_user, allowed_users, admin_only
+
 
 @unauthenticated_user
 def landing(request):
     return render(request, 'schedule_app/landing.html')
 
+
 @unauthenticated_user
 def registerPage(request):
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            group = Group.objects.get(name='employee')
+            user.groups.add(group)
+            # Added username after video because of error returning employee name if not added
+            Employee.objects.create(
+                user=user,
+                name=user.username,
+            )
+            messages.success(request, 'Account was created for ' + username)
+            return redirect('login')
+    context = {'form': form}
+    return render(request, 'schedule_app/register.html', context)
 
-	form = CreateUserForm()
-	if request.method == 'POST':
-		form = CreateUserForm(request.POST)
-		if form.is_valid():
-			user = form.save()
-			username = form.cleaned_data.get('username')
-
-			group = Group.objects.get(name='employees')
-			user.groups.add(group)
-
-			messages.success(request, 'Account was created for ' + username)
-
-			return redirect('login')
-		
-
-	context = {'form':form}
-	return render(request, 'schedule_app/register.html', context)
 
 @unauthenticated_user
 def loginPage(request):
 
-	if request.method == 'POST':
-		username = request.POST.get('username')
-		password =request.POST.get('password')
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-		user = authenticate(request, username=username, password=password)
+        user = authenticate(request, username=username, password=password)
 
-		if user is not None:
-			login(request, user)
-			return redirect('home')
-		else:
-			messages.info(request, 'Username OR password is incorrect')
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.info(request, 'Username OR password is incorrect')
 
-	context = {}
-	return render(request, 'schedule_app/login.html', context)
+    context = {}
+    return render(request, 'schedule_app/login.html', context)
+
 
 def logoutUser(request):
-	logout(request)
-	return redirect('login')
+    logout(request)
+    return redirect('login')
 
 
 @login_required(login_url='login')
@@ -73,7 +78,6 @@ def home(request):
     total_employees = employees.count()
 
     total_tasks = tasks.count()
-
     in_progress = tasks.filter(status='In Progress').count()
     pending = tasks.filter(status='Pending').count()
 
@@ -83,13 +87,29 @@ def home(request):
     tasks = myFilter.qs
 
     context = {'tasks': tasks, 'employees': employees,
-               'total_employees': total_employees, 'total_tasks': total_tasks, 'in_progress': in_progress, 'pending': pending, 'myFilter': myFilter}
+               'total_employees': total_employees,
+               'total_tasks': total_tasks,
+               'in_progress': in_progress,
+               'pending': pending, 'myFilter': myFilter}
 
     return render(request, 'schedule_app/dashboard.html', context)
 
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employee'])
 def userPage(request):
-    context = {}
+    tasks = request.user.employee.task_set.all()
+
+    total_tasks = tasks.count()
+
+    in_progress = tasks.filter(status='In Progress').count()
+    pending = tasks.filter(status='Pending').count()
+
+    print('tasks:', tasks)
+    context = {'tasks': tasks, 'total_tasks': total_tasks,
+               'in_progress': in_progress, 'pending': pending}
     return render(request, 'schedule_app/user.html', context)
+
 
 @login_required(login_url='login')
 def positions(request):
@@ -99,6 +119,7 @@ def positions(request):
 
 def about(request):
     return render(request, 'schedule_app/about.html')
+
 
 @login_required(login_url='login')
 def employee(request, pk):
@@ -114,6 +135,7 @@ def employee(request, pk):
     context = {'employee': employee,
                'tasks': tasks, 'total_tasks': total_tasks, 'myFilter': myFilter}
     return render(request, 'schedule_app/employee.html', context)
+
 
 @login_required(login_url='login')
 def createTask(request, pk):
@@ -131,6 +153,7 @@ def createTask(request, pk):
 
     return render(request, 'schedule_app/task_form.html', context)
 
+
 @login_required(login_url='login')
 def updateTask(request, pk):
     task = Task.objects.get(id=pk)
@@ -146,6 +169,7 @@ def updateTask(request, pk):
     context = {'formset': formset}
 
     return render(request, 'schedule_app/task_form.html', context)
+
 
 @login_required(login_url='login')
 def deleteTask(request, pk):
@@ -192,3 +216,24 @@ def deletePosition(request, pk):
     context = {'title': position}
 
     return render(request, 'schedule_app/delete_position.html', context)
+
+
+def room(request, room_name):
+    return render(request, 'schedule_app/chatroom.html', {
+        'room_name': room_name
+    })
+
+
+def chat(request):
+    form = ChatForm()
+
+    if request.method == 'POST':
+        form = ChatForm(request.POST)
+        if form.is_valid():
+            form.save()
+            chat_id = form.cleaned_data.get("chatroom")
+            return redirect('/chat/' + chat_id)
+
+    context = {'form': form}
+
+    return render(request, 'schedule_app/chat_selection.html', context)
