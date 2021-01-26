@@ -96,8 +96,19 @@ def home(request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['employee'])
 def userPage(request):
-    return render(request, 'schedule_app/user.html')
+    tasks = request.user.employee.task_set.all()
+
+    total_tasks = tasks.count()
+
+    in_progress = tasks.filter(status='In Progress').count()
+    pending = tasks.filter(status='Pending').count()
+
+    print('tasks:', tasks)
+    context = {'tasks': tasks, 'total_tasks': total_tasks,
+               'in_progress': in_progress, 'pending': pending}
+    return render(request, 'schedule_app/user.html', context)
 
 
 @login_required(login_url='login')
