@@ -15,8 +15,6 @@
                 <th>Date Due</th>
                 <th>Priority</th>
                 <th>Note</th>
-                <th>Update</th>
-                <th>Remove</th>
             </tr>
             <tr>
                 <td>{{task.title}}</td>
@@ -25,10 +23,6 @@
                 <td>{{task.date_due}}</td>
                 <td>{{task.priority}}</td>
                 <td>{{task.note}}</td>
-                <td><a class="btn btn-sm btn-outline-info" href="{% url 'update_task' task.id %}">Update</a>
-                </td>
-                <td><a class="btn btn-sm btn-outline-danger" href="{% url 'delete_task' task.id %}">Delete</a>
-                </td>
             </tr>
         </table>
     </div>

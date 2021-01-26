@@ -18,8 +18,7 @@
                     <th>Date Due</th>
                     <th>Priority</th>
                     <th>Details</th>
-                    <th>Update</th>
-                    <th>Remove</th>
+                    <th>Update Status</th>
                 </tr>
 
                 {% for task in tasks %}
@@ -29,6 +28,9 @@
                     <td>{{task.date_due}}</td>
                     <td>{{task.priority}}</td>
                     <td><a class="btn btn-sm btn-outline-dark" href="{% url 'task_details' task.id %}">Details</a></td>
+                    <td><a class="btn btn-sm btn-outline-dark" href="{% url 'update_status' task.id %}">Update
+                            Status</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </table>

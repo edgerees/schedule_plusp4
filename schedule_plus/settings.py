@@ -75,8 +75,6 @@ WSGI_APPLICATION = 'schedule_plus.wsgi.application'
 
 ASGI_APPLICATION = 'schedule_plus.routing.application'
 
-# ASGI_APPLICATION = 'schedule_plus.asgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

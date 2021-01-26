@@ -8,7 +8,13 @@ from django import forms
 class TaskForm(ModelForm):
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = ['title', 'note', 'date_due', 'priority', 'employee']
+
+
+class TaskStatusForm(ModelForm):
+    class Meta:
+        model = Task
+        fields = ['status']
 
 
 class PositionForm(ModelForm):

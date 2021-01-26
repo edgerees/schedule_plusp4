@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.forms import inlineformset_factory
 from .models import *
-from .forms import ChatForm, TaskForm, PositionForm
+from .forms import ChatForm, TaskForm, PositionForm, TaskStatusForm
 from .filters import TaskFilter
 from django.contrib.auth.forms import UserCreationForm
 
@@ -140,7 +140,7 @@ def employee(request, pk):
 @login_required(login_url='login')
 def createTask(request, pk):
     TaskFormSet = inlineformset_factory(
-        Employee, Task, fields=('title', 'note', 'status', 'priority', 'date_due'), extra=5)
+        Employee, Task, fields=('title', 'note', 'priority', 'date_due'), extra=5)
     employee = Employee.objects.get(id=pk)
     formset = TaskFormSet(queryset=Task.objects.none(), instance=employee)
     if request.method == 'POST':
@@ -169,6 +169,23 @@ def updateTask(request, pk):
     context = {'formset': formset}
 
     return render(request, 'schedule_app/task_form.html', context)
+
+
+@login_required(login_url='login')
+def updateStatus(request, pk):
+    task = Task.objects.get(id=pk)
+
+    formset = TaskStatusForm(instance=task)
+
+    if request.method == 'POST':
+        form = TaskStatusForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    context = {'formset': formset}
+
+    return render(request, 'schedule_app/updatestatus.html', context)
 
 
 @login_required(login_url='login')
