@@ -48,28 +48,6 @@ def registerPage(request):
 	return render(request, 'schedule_app/register.html', context)
 
 
-
-# @unauthenticated_user
-# def registerPage(request):
-
-# 	form = CreateUserForm()
-# 	if request.method == 'POST':
-# 		form = CreateUserForm(request.POST)
-# 		if form.is_valid():
-# 			user = form.save()
-# 			username = form.cleaned_data.get('username')
-
-# 			group = Group.objects.get(name='employee')
-# 			user.groups.add(group)
-
-# 			messages.success(request, 'Account was created for ' + username)
-
-# 			return redirect('login')
-		
-
-# 	context = {'form':form}
-# 	return render(request, 'schedule_app/register.html', context)
-
 @unauthenticated_user
 def loginPage(request):
 
@@ -118,15 +96,25 @@ def home(request):
 
     return render(request, 'schedule_app/dashboard.html', context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employee'])
 def userPage(request):
-    context = {}
+    tasks = request.user.employee.task_set.all()
+    
+    total_tasks = tasks.count()
+    
+    in_progress = tasks.filter(status='In Progress').count()
+    pending = tasks.filter(status='Pending').count()
+    
+    print('tasks:', tasks)
+    context = {'tasks':tasks, 'total_tasks':total_tasks,
+    'in_progress':in_progress, 'pending':pending}
     return render(request, 'schedule_app/user.html', context)
 
 @login_required(login_url='login')
 def positions(request):
     positions = Position.objects.all()
     return render(request, 'schedule_app/positions.html', {'positions': positions})
-
 
 def about(request):
     return render(request, 'schedule_app/about.html')
