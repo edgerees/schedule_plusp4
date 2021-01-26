@@ -21,7 +21,4 @@ urlpatterns = [
     path('create_position/', views.createPosition, name='create_position'),
     path('delete_position/<str:pk>/',
          views.deletePosition, name='delete_position'),
-    path('register/', views.registerPage, name="register"),
-    path('login/', views.loginPage, name="login"),
-    path('logout/', views.logoutUser, name="logout"),
 ]

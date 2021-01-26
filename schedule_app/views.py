@@ -1,9 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.forms import inlineformset_factory
-from .models import *
-from .forms import TaskForm, PositionForm
-from .filters import TaskFilter
 from django.contrib.auth.forms import UserCreationForm
 
 from django.contrib.auth import authenticate, login, logout
@@ -13,8 +10,13 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 
-from .forms import CreateUserForm
+
+# Views here
+from .models import *
+from .forms import TaskForm, PositionForm, CreateUserForm
+from .filters import TaskFilter
 from .decorators import unauthenticated_user, allowed_users, admin_only
+
 
 @unauthenticated_user
 def landing(request):
@@ -30,9 +32,13 @@ def registerPage(request):
 			user = form.save()
 			username = form.cleaned_data.get('username')
 
-			group = Group.objects.get(name='employees')
+			group = Group.objects.get(name='employee')
 			user.groups.add(group)
-
+			#Added username after video because of error returning employee name if not added
+			Employee.objects.create(
+				user=user,
+				name=user.username,
+				)
 			messages.success(request, 'Account was created for ' + username)
 
 			return redirect('login')
@@ -40,6 +46,29 @@ def registerPage(request):
 
 	context = {'form':form}
 	return render(request, 'schedule_app/register.html', context)
+
+
+
+# @unauthenticated_user
+# def registerPage(request):
+
+# 	form = CreateUserForm()
+# 	if request.method == 'POST':
+# 		form = CreateUserForm(request.POST)
+# 		if form.is_valid():
+# 			user = form.save()
+# 			username = form.cleaned_data.get('username')
+
+# 			group = Group.objects.get(name='employee')
+# 			user.groups.add(group)
+
+# 			messages.success(request, 'Account was created for ' + username)
+
+# 			return redirect('login')
+		
+
+# 	context = {'form':form}
+# 	return render(request, 'schedule_app/register.html', context)
 
 @unauthenticated_user
 def loginPage(request):
@@ -73,7 +102,6 @@ def home(request):
     total_employees = employees.count()
 
     total_tasks = tasks.count()
-
     in_progress = tasks.filter(status='In Progress').count()
     pending = tasks.filter(status='Pending').count()
 
@@ -83,7 +111,10 @@ def home(request):
     tasks = myFilter.qs
 
     context = {'tasks': tasks, 'employees': employees,
-               'total_employees': total_employees, 'total_tasks': total_tasks, 'in_progress': in_progress, 'pending': pending, 'myFilter': myFilter}
+               'total_employees': total_employees, 
+               'total_tasks': total_tasks, 
+               'in_progress': in_progress, 
+               'pending': pending, 'myFilter': myFilter}
 
     return render(request, 'schedule_app/dashboard.html', context)
 
