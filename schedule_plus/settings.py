@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'schedule_app',
-    'django_filters'
+    'django_filters',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +72,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'schedule_plus.wsgi.application'
+
+ASGI_APPLICATION = 'schedule_plus.routing.application'
+
+# ASGI_APPLICATION = 'schedule_plus.asgi.application'
 
 
 # Database
@@ -122,9 +127,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", "6379")],
+        },
+    },
+}
 
-# LOGIN_URL = 'login' 
-# LOGOUT_URL = 'logout'
 MEDIA_URL = '/images/'
 
 STATICFILES_DIRS = [
