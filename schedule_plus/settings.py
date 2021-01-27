@@ -26,7 +26,7 @@ SECRET_KEY = 'vt^rfaz#(*rav0hk)n4f7zkf!g3j%_do@sxr**8d0mi909bhd7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['resttaskmanager.herokuapp.com']
 
 
 # Application definition
