@@ -13,6 +13,7 @@ class Employee(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=True)
     email = models.CharField(max_length=200, null=True)
+    profile_pic = models.ImageField(default="profile1.png", null=True, blank=True)
     position = models.ForeignKey(
         Position, null=True, on_delete=models.SET_NULL)
     # company = models.CharField(max_length=200, null=True)
