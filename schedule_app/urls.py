@@ -10,6 +10,8 @@ urlpatterns = [
     path('landing/', views.landing, name='landing'),
     path('about/', views.about, name='about'),
     
+    path('account/', views.accountSettings, name="account"),
+    
     path('user/', views.userPage, name='user-page'),
     path('positions/', views.positions, name='positions'),
     path('employee/<str:pk>/', views.employee, name='employee'),

@@ -13,7 +13,8 @@ from django.contrib.auth.models import Group
 
 # Views here
 from .models import *
-from .forms import TaskForm, PositionForm, CreateUserForm
+from .models import User
+from .forms import TaskForm, PositionForm, CreateUserForm, EmployeeForm
 from .filters import TaskFilter
 from .decorators import unauthenticated_user, allowed_users, admin_only
 
@@ -110,6 +111,22 @@ def userPage(request):
     context = {'tasks':tasks, 'total_tasks':total_tasks,
     'in_progress':in_progress, 'pending':pending}
     return render(request, 'schedule_app/user.html', context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['employee'])
+def accountSettings(request):
+	employee = request.user.employee
+	form = EmployeeForm(instance=employee)
+
+	if request.method == 'POST':
+		form = EmployeeForm(request.POST, request.FILES,instance=employee)
+		if form.is_valid():
+			form.save()
+
+
+	context = {'form':form}
+	return render(request, 'schedule_app/account_settings.html', context)
+
 
 @login_required(login_url='login')
 def positions(request):

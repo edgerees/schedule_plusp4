@@ -1,9 +1,14 @@
 from django.forms import ModelForm
-from .models import Task, Position
+from .models import Task, Position, Employee
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 
+class EmployeeForm(ModelForm):
+	class Meta:
+		model = Employee
+		fields = '__all__'
+		exclude = ['user']
 
 class TaskForm(ModelForm):
     class Meta:
