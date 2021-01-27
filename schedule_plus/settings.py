@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'schedule_app',
+    'schedule_app.apps.ScheduleAppConfig',
+    # 'schedule_app',
     'django_filters',
     'channels',
 ]
@@ -75,8 +76,6 @@ WSGI_APPLICATION = 'schedule_plus.wsgi.application'
 
 ASGI_APPLICATION = 'schedule_plus.routing.application'
 
-# ASGI_APPLICATION = 'schedule_plus.asgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -88,6 +87,14 @@ DATABASES = {
     }
 }
 
+# 'default': {
+#     'ENGINE': 'django.db.backends.postgresql',
+#     'NAME': 'Task_Manager',
+#     'USER': 'postgres',
+#     'PASSWORD': 'tasksrcool',
+#     'HOST': 'localhost',
+#     'PORT': '5432'
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -141,3 +148,5 @@ MEDIA_URL = '/images/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
