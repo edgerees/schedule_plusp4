@@ -11,6 +11,8 @@ urlpatterns = [
     path('create_task/<str:pk>/', views.createTask, name='create_task'),
     path('update_task/<str:pk>/', views.updateTask, name='update_task'),
     path('update_status/<str:pk>/', views.updateStatus, name='update_status'),
+    path('update_employee/<str:pk>/',
+         views.updateEmployee, name='update_employee'),
     path('delete_task/<str:pk>/', views.deleteTask, name='delete_task'),
     path('task_details/<str:pk>/', views.taskDetails, name='task_details'),
     path('create_position/', views.createPosition, name='create_position'),
@@ -21,4 +23,5 @@ urlpatterns = [
     path('logout/', views.logoutUser, name="logout"),
     path('chat/', views.chat, name="chat"),
     path('chat/<str:room_name>/', views.room, name="room"),
+    path('account/', views.accountSettings, name="account"),
 ]

@@ -6,12 +6,13 @@
 
 <div class="row">
     <div class="col-md">
-        <!-- <a class="btn btn-sm btn-outline-dark" href="{% url 'home' %}">Go Back</a> -->
         <div class="card card-body">
             <h5>Employee</h5>
             <hr>
             <a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'create_task' employee.id %}">Assign To
                 Task</a>
+            <a class="btn btn-outline-warning  btn-sm btn-block" href="{% url 'update_employee' employee.id %}">Set
+                Position</a>
 
         </div>
     </div>

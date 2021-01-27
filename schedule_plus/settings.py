@@ -38,9 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'schedule_app',
+    'schedule_app.apps.ScheduleAppConfig',
     'django_filters',
     'channels',
+    'channels_redis',
+
 ]
 
 MIDDLEWARE = [
@@ -81,8 +83,12 @@ ASGI_APPLICATION = 'schedule_plus.routing.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Task_Manager',
+        'USER': 'postgres',
+        'PASSWORD': 'tasksrcool',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 
@@ -139,3 +145,5 @@ MEDIA_URL = '/images/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')

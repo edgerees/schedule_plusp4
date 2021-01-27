@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.forms import inlineformset_factory
+from .forms import ChatForm, TaskForm, PositionForm, TaskStatusForm, UpdateEmployeeForm, CreateUserForm, EmployeeForm
 from .models import *
-from .forms import ChatForm, TaskForm, PositionForm, TaskStatusForm
+from .models import User
 from .filters import TaskFilter
 from django.contrib.auth.forms import UserCreationForm
 
@@ -12,10 +13,6 @@ from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
-
-
-# Views here
-from .forms import TaskForm, PositionForm, CreateUserForm
 from .decorators import unauthenticated_user, allowed_users, admin_only
 
 
@@ -32,13 +29,6 @@ def registerPage(request):
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
-            group = Group.objects.get(name='employee')
-            user.groups.add(group)
-            # Added username after video because of error returning employee name if not added
-            Employee.objects.create(
-                user=user,
-                name=user.username,
-            )
             messages.success(request, 'Account was created for ' + username)
             return redirect('login')
     context = {'form': form}
@@ -122,6 +112,19 @@ def about(request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['employee'])
+def accountSettings(request):
+    employee = request.user.employee
+    form = EmployeeForm(instance=employee)
+    if request.method == 'POST':
+        form = EmployeeForm(request.POST, request.FILES, instance=employee)
+        if form.is_valid():
+            form.save()
+    context = {'form': form}
+    return render(request, 'schedule_app/account_settings.html', context)
+
+
+@login_required(login_url='login')
 def employee(request, pk):
     employee = Employee.objects.get(id=pk)
 
@@ -186,6 +189,23 @@ def updateStatus(request, pk):
     context = {'formset': formset}
 
     return render(request, 'schedule_app/updatestatus.html', context)
+
+
+@login_required(login_url='login')
+def updateEmployee(request, pk):
+    employee = Employee.objects.get(id=pk)
+
+    formset = UpdateEmployeeForm(instance=employee)
+
+    if request.method == 'POST':
+        form = UpdateEmployeeForm(request.POST, instance=employee)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    context = {'formset': formset}
+
+    return render(request, 'schedule_app/update_employee.html', context)
 
 
 @login_required(login_url='login')
