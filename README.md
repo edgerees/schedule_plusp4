@@ -156,7 +156,7 @@ class Task(models.Model):
 ## Installation
 
 1. Fork and clone this repository
-2. Run pip `install django django_filters channels redis`
+2. Run pip `install django django_filters channels redis channels_redis Pillow`
 3. Run `python manage.py runserver`
 
 ## Dependencies
@@ -172,6 +172,8 @@ class Task(models.Model):
 - redis
 
 - PostgreSQL
+
+- Pillow
 
 ## ERD Model
 

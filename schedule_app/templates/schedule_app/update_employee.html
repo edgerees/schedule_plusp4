@@ -1,0 +1,22 @@
+{% extends 'schedule_app/main.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body" style="text-align: center;">
+
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{formset}}
+                <hr>
+                <input type="submit" name="Submit">
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
