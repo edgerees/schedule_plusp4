@@ -12,6 +12,8 @@ from django.contrib.auth.models import Group
 
 
 # Views here
+
+
 from .models import *
 from .models import User
 from .forms import TaskForm, PositionForm, CreateUserForm, EmployeeForm
@@ -33,13 +35,13 @@ def registerPage(request):
 			user = form.save()
 			username = form.cleaned_data.get('username')
 
-			group = Group.objects.get(name='employee')
-			user.groups.add(group)
-			#Added username after video because of error returning employee name if not added
-			Employee.objects.create(
-				user=user,
-				name=user.username,
-				)
+			# group = Group.objects.get(name='employee')
+			# user.groups.add(group)
+			# #Added username after video because of error returning employee name if not added
+			# Employee.objects.create(
+			# 	user=user,
+			# 	name=user.username,
+			# 	)
 			messages.success(request, 'Account was created for ' + username)
 
 			return redirect('login')
