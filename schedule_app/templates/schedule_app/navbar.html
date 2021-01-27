@@ -32,7 +32,7 @@
             </li>
             {% if request.user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link" style="color: white; href=" {% url 'account' %}">Settings</a>
+                <a class="nav-link" style="color: white;" href="{% url 'account' %}">Settings</a>
             </li>
             {% endif %}
             {% if request.user.unauthenticated_user%}

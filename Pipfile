@@ -10,6 +10,7 @@ channels_redis = "*"
 Pillow = "*"
 django_filter = "*"
 django_heroku = "*"
+dj-database-url = "*"
 
 [dev-packages]
 

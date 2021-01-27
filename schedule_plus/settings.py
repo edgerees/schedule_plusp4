@@ -26,7 +26,7 @@ SECRET_KEY = 'vt^rfaz#(*rav0hk)n4f7zkf!g3j%_do@sxr**8d0mi909bhd7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['resttaskmanager.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -39,10 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'schedule_app.apps.ScheduleAppConfig',
+    # 'schedule_app',
     'django_filters',
     'channels',
-    'channels_redis',
-
 ]
 
 MIDDLEWARE = [
@@ -83,15 +82,19 @@ ASGI_APPLICATION = 'schedule_plus.routing.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Task_Manager',
-        'USER': 'postgres',
-        'PASSWORD': 'tasksrcool',
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
+# 'default': {
+#     'ENGINE': 'django.db.backends.postgresql',
+#     'NAME': 'Task_Manager',
+#     'USER': 'postgres',
+#     'PASSWORD': 'tasksrcool',
+#     'HOST': 'localhost',
+#     'PORT': '5432'
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
