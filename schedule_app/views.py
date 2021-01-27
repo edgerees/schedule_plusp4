@@ -168,7 +168,7 @@ def updateTask(request, pk):
 
     context = {'formset': formset}
 
-    return render(request, 'schedule_app/task_form.html', context)
+    return render(request, 'schedule_app/update_form.html', context)
 
 
 @login_required(login_url='login')
