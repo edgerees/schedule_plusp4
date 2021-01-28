@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 
+import dj_database_url
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -82,20 +83,21 @@ ASGI_APPLICATION = 'schedule_plus.routing.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Task_Manager',
-        'USER': 'postgres',
-        'PASSWORD': 'tasksrcool',
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'Task_Manager',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'tasksrcool',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432'
+    # }
 }
+# db_from_env = dj_database_url.config(conn_max_age=600)
+# DATABASES['default'.update(db_from_env)]
 
-
-# 'default': {
-#     'ENGINE': 'django.db.backends.sqlite3',
-#     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
