@@ -59,8 +59,8 @@ def logoutUser(request):
     return redirect('login')
 
 
-@login_required(login_url='login')
-@admin_only
+# @login_required(login_url='login')
+# @admin_only
 def home(request):
     tasks = Task.objects.all()
     employees = Employee.objects.all()
@@ -85,8 +85,8 @@ def home(request):
     return render(request, 'schedule_app/dashboard.html', context)
 
 
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['employee'])
+# @login_required(login_url='login')
+# @allowed_users(allowed_roles=['employee'])
 def userPage(request):
     tasks = request.user.employee.task_set.all()
 
