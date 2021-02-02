@@ -27,7 +27,8 @@ SECRET_KEY = 'vt^rfaz#(*rav0hk)n4f7zkf!g3j%_do@sxr**8d0mi909bhd7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['resttaskmanager.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost',
+                 '127.0.0.1', 'resttaskmanagerr.herokuapp.com']
 
 
 # Application definition
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     # 'schedule_app',
     'django_filters',
     'channels',
+    'whitenoise.runserver_nostatic'
 ]
 
 MIDDLEWARE = [
@@ -54,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'schedule_plus.urls'
@@ -92,6 +95,9 @@ DATABASES = {
         'PORT': '5432'
     }
 }
+
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 # 'default': {
 #     'ENGINE': 'django.db.backends.sqlite3',
