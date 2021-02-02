@@ -28,7 +28,7 @@ SECRET_KEY = 'vt^rfaz#(*rav0hk)n4f7zkf!g3j%_do@sxr**8d0mi909bhd7'
 DEBUG = False
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost',
-                 '127.0.0.1', 'resttaskmanagerr.herokuapp.com']
+                 '127.0.0.1', 'resttaskmanager.herokuapp.com']
 
 
 # Application definition
